@@ -22,9 +22,7 @@ namespace TellerUI
         {
             try
             {
-                //BankAccount ba = new SavingsAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,(CurrencyType)CurrencyTypeComboBox.SelectedItem);
 
-                //MessageBox.Show("Account Creation Successful!",String.Format("{0:c} in Account", ba.Balance));
                 BankAccount ba;
                 if (SavingsRadioButton.Checked)
                 {
