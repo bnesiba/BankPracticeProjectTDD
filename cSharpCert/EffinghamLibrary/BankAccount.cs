@@ -149,16 +149,6 @@ namespace EffinghamLibrary
         #endregion Constructors
 
         #region Methods
-        /////// <summary>
-        /////// Deposit amount into account
-        /////// This method exists because it is required by the IBankAccount interface
-        /////// </summary>
-        /////// <param name="amt">Amount to deposit. Must be > 0</param>
-        ////public void Deposit(decimal amt)
-        ////{
-        ////    Deposit(amt, CurrencyType.Dollar);
-
-        ////}
 
         /// <summary>
         /// Deposit amount into account
@@ -182,15 +172,6 @@ namespace EffinghamLibrary
 
         }
 
-        ///// <summary>
-        ///// Withdraw amount from account.
-        ///// </summary>
-        ///// <param name="amt">Amount to withdraw. Must be > 0. Account Must have sufficient Balance</param>
-        //public virtual void Withdraw(decimal amt)
-        //{
-        //    this.Withdraw(amt, CurrencyType.Dollar);
-
-        //}
 
         /// <summary>
         /// Withdraw amount from account.
