@@ -13,7 +13,7 @@ namespace EffinghamLibrary
         #region Fields and Properties
         //static
         private static int nextAccountNumber;
-        protected static readonly object staticBankAccountLock;
+       protected static readonly object staticBankAccountLock = new object();
 
         //constants
        private const string acctNumStr = "AccountNumber";

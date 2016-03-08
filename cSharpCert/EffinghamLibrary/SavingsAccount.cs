@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace EffinghamLibrary
         public static decimal MonthlyRate { get; }
 
         #endregion Fields and Properties
+
         #region Constructors
 
         static SavingsAccount()
@@ -25,6 +27,12 @@ namespace EffinghamLibrary
             : base(startingAmount, customerName, currency)
         {
             
+        }
+
+        internal SavingsAccount(SerializationInfo info, StreamingContext context)
+            : base(info,context)
+        {
+
         }
         #endregion Constructors
 
