@@ -9,7 +9,7 @@ namespace EffinghamLibrary
     public class SOAPVault : IVault
     {
         #region IVault Methods
-        public IEnumerable<IBankAccountMultipleCurrency> GetAccount()
+        public IEnumerable<IBankAccountMultipleCurrency> GetAccounts()
         {
             throw new NotImplementedException();
         }

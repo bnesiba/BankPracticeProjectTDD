@@ -13,7 +13,7 @@ namespace EffinghamLibrary
     {
 
         //Read Data
-        IEnumerable<IBankAccountMultipleCurrency> GetAccount();
+        IEnumerable<IBankAccountMultipleCurrency> GetAccounts();
         IBankAccountMultipleCurrency GetAccount(int accountNumber);
 
         //Write Data

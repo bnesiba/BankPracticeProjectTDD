@@ -59,6 +59,7 @@
     <Compile Include="SavingsAccountTests.cs" />
     <Compile Include="CheckingAccountTests.cs" />
     <Compile Include="SerializationTests.cs" />
+    <Compile Include="SOAPVaultTest.cs" />
     <Compile Include="TestBankAccount.cs" />
   </ItemGroup>
   <ItemGroup>
