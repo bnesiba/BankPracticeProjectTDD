@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace EffinghamLibrary
 {
    [Serializable]
-    public class BankAccount : IBankAccount, IBankAccountMultipleCurrency, ISerializable
+    public abstract class BankAccount : /*IBankAccount,*/ IBankAccountMultipleCurrency, ISerializable
     {
         #region Fields and Properties
         //static
         private static int nextAccountNumber;
-       protected static readonly object staticBankAccountLock = new object();
+        protected static readonly object staticBankAccountLock = new object();
 
         //constants
        private const string acctNumStr = "AccountNumber";
@@ -128,7 +128,7 @@ namespace EffinghamLibrary
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-       internal BankAccount(SerializationInfo info, StreamingContext context)
+       protected internal BankAccount(SerializationInfo info, StreamingContext context)
        {
             lock (staticBankAccountLock)
             {
@@ -149,16 +149,16 @@ namespace EffinghamLibrary
         #endregion Constructors
 
         #region Methods
-        /// <summary>
-        /// Deposit amount into account
-        /// This method exists because it is required by the IBankAccount interface
-        /// </summary>
-        /// <param name="amt">Amount to deposit. Must be > 0</param>
-        public void Deposit(decimal amt)
-        {
-            Deposit(amt, CurrencyType.Dollar);
+        /////// <summary>
+        /////// Deposit amount into account
+        /////// This method exists because it is required by the IBankAccount interface
+        /////// </summary>
+        /////// <param name="amt">Amount to deposit. Must be > 0</param>
+        ////public void Deposit(decimal amt)
+        ////{
+        ////    Deposit(amt, CurrencyType.Dollar);
 
-        }
+        ////}
 
         /// <summary>
         /// Deposit amount into account
@@ -182,15 +182,15 @@ namespace EffinghamLibrary
 
         }
 
-        /// <summary>
-        /// Withdraw amount from account.
-        /// </summary>
-        /// <param name="amt">Amount to withdraw. Must be > 0. Account Must have sufficient Balance</param>
-        public virtual void Withdraw(decimal amt)
-        {
-            this.Withdraw(amt, CurrencyType.Dollar);
+        ///// <summary>
+        ///// Withdraw amount from account.
+        ///// </summary>
+        ///// <param name="amt">Amount to withdraw. Must be > 0. Account Must have sufficient Balance</param>
+        //public virtual void Withdraw(decimal amt)
+        //{
+        //    this.Withdraw(amt, CurrencyType.Dollar);
 
-        }
+        //}
 
         /// <summary>
         /// Withdraw amount from account.

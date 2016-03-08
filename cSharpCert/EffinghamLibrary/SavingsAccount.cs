@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EffinghamLibrary
 {
-    public class SavingsAccount : BankAccount, IInterestBearing
+    public sealed class SavingsAccount : BankAccount, IInterestBearing
     {
         #region Fields and Properties
 

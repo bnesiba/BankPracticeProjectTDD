@@ -12,12 +12,12 @@ namespace EffinghamLibraryTests
         private const string testName = "test";
         private const decimal testAmt = 1m;
 
-        private IBankAccount ba;
+        private TestBankAccount ba;
 
         [TestInitialize]
         public void Setup()
         {
-            ba = new BankAccount(testAmt, testName);
+            ba = new TestBankAccount(testAmt, testName);
         }
 
         [TestMethod]

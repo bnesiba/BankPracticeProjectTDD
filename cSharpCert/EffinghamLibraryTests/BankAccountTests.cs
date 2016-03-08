@@ -11,12 +11,12 @@ namespace EffinghamLibraryTests
         private const string testName = "test";
         private const decimal testAmt = 1m;
 
-        private IBankAccount ba;
+        private TestBankAccount ba;
 
         [TestInitialize]
         public void Setup()
         {
-            ba = new BankAccount(testAmt, testName);
+            ba = new TestBankAccount(testAmt, testName);
         }
 
         #region Expected Behavior Tests
@@ -38,7 +38,7 @@ namespace EffinghamLibraryTests
         {
             //arrange
             const string name = "Jeff";
-            IBankAccount ba = new BankAccount(testAmt, name);
+            TestBankAccount ba = new TestBankAccount(testAmt, name);
 
             //Assert
             Assert.AreEqual(ba.CustomerName, name);
@@ -49,7 +49,7 @@ namespace EffinghamLibraryTests
         {
             //arrange
             const decimal startingBalance = 10m;
-            IBankAccount ba = new BankAccount(startingBalance, testName);
+            TestBankAccount ba = new TestBankAccount(startingBalance, testName);
 
             //Assert
             Assert.AreEqual(ba.Balance, startingBalance);
@@ -79,7 +79,7 @@ namespace EffinghamLibraryTests
         public void AccountNumberGenerationTest()
         {
             //Arrange
-            IBankAccount bb = new BankAccount(testAmt, testName);
+            TestBankAccount bb = new TestBankAccount(testAmt, testName);
 
             //Assert
             Assert.AreEqual(ba.AccountNumber + 1, bb.AccountNumber);
@@ -90,7 +90,7 @@ namespace EffinghamLibraryTests
         {
             //arrange
             const decimal amt = 100m;
-            IBankAccount ba = new BankAccount(amt*2,testName);
+            TestBankAccount ba = new TestBankAccount(amt*2,testName);
             //act
             ba.Withdraw(amt);
             //assert
@@ -126,7 +126,7 @@ namespace EffinghamLibraryTests
         {
             //arrange
             const decimal negAmt = -1m;
-            IBankAccount ba = new BankAccount(negAmt, testName);
+            TestBankAccount ba = new TestBankAccount(negAmt, testName);
 
         }
 
@@ -136,7 +136,7 @@ namespace EffinghamLibraryTests
         {
             //arrange
             const decimal zeroAmt = 0m;
-            IBankAccount ba = new BankAccount(zeroAmt, testName);
+            TestBankAccount ba = new TestBankAccount(zeroAmt, testName);
 
         }
 
@@ -146,7 +146,7 @@ namespace EffinghamLibraryTests
         {
             //arrange
             const string name = "1";
-            IBankAccount ba = new BankAccount(testAmt, name);
+            TestBankAccount ba = new TestBankAccount(testAmt, name);
 
         }
 
@@ -156,7 +156,7 @@ namespace EffinghamLibraryTests
         {
             //arrange
             const string name = null;
-            IBankAccount ba = new BankAccount(testAmt, name);
+            TestBankAccount ba = new TestBankAccount(testAmt, name);
 
         }
 
@@ -222,7 +222,7 @@ namespace EffinghamLibraryTests
         {
             const decimal smallAmt1 = .33m;
             const decimal smallAmt2 = .9m;
-            IBankAccount ba = new BankAccount(100000m, testName);
+            TestBankAccount ba = new TestBankAccount(100000m, testName);
             Parallel.Invoke(() =>
                             {
                                 for (int i = 0; i < 10000; i++)

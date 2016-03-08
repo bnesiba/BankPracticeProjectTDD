@@ -9,12 +9,12 @@ namespace EffinghamLibraryTests
     {
         private const string testName = "test";
         private const decimal testAmt = 1m;
-        private IBankAccountMultipleCurrency ba;
+        private TestBankAccount ba;
 
         [TestInitialize]
         public void Setup()
         {
-            ba = new BankAccount(testAmt, testName);
+            ba = new TestBankAccount(testAmt, testName);
         }
         [TestCleanup]
         public void Cleanup()
@@ -61,7 +61,7 @@ namespace EffinghamLibraryTests
         [TestMethod]
         public void ConstructorWithPesoTest()
         {
-            ba = new BankAccount(testAmt, testName, CurrencyType.Peso);
+            ba = new TestBankAccount(testAmt, testName, CurrencyType.Peso);
             Assert.AreEqual(CurrencyConversion.Convert(testAmt, CurrencyType.Peso), ba.Balance);
         }
         #endregion Expected Behavior Tests
