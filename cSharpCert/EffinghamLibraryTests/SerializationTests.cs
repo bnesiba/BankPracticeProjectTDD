@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Soap;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EffinghamLibraryTests
@@ -7,8 +9,13 @@ namespace EffinghamLibraryTests
     public class SerializationTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void SerializationTest()
         {
+            SoapFormatter formatter = new SoapFormatter();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                
+            }
         }
     }
 }
