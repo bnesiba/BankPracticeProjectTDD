@@ -22,9 +22,25 @@ namespace TellerUI
         {
             try
             {
-                BankAccount ba = new SavingsAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,(CurrencyType)CurrencyTypeComboBox.SelectedItem);
+                //BankAccount ba = new SavingsAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,(CurrencyType)CurrencyTypeComboBox.SelectedItem);
 
-                MessageBox.Show("Account Creation Successful!",String.Format("{0:c} in Account", ba.Balance));
+                //MessageBox.Show("Account Creation Successful!",String.Format("{0:c} in Account", ba.Balance));
+                BankAccount ba;
+                if (SavingsRadioButton.Checked)
+                {
+                    ba = new SavingsAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,
+                        (CurrencyType)CurrencyTypeComboBox.SelectedItem);
+
+                    MessageBox.Show(String.Format("Customer Name: {0}\nBalance: {1}\nCurrency: {2}", ba.CustomerName, ba.Balance, CurrencyTypeComboBox.SelectedItem), "Savings Account Created!");
+                }
+                else
+                {
+                    ba = new CheckingAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,
+                        (CurrencyType)CurrencyTypeComboBox.SelectedItem);
+
+                    MessageBox.Show(String.Format("Customer Name: {0}\nBalance: {1}\nCurrency: {2}", ba.CustomerName, ba.Balance, CurrencyTypeComboBox.SelectedItem), "Checking Account Created!");
+                }
+                
             }
             catch (Exception ex)
             {
