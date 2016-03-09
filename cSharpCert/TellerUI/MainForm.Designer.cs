@@ -39,6 +39,7 @@
             this.AccontTypeLabel = new System.Windows.Forms.Label();
             this.SavingsRadioButton = new System.Windows.Forms.RadioButton();
             this.CheckingRadioButton = new System.Windows.Forms.RadioButton();
+            this.AccountListBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // CustomerNameLabel
@@ -72,7 +73,7 @@
             // NewAccountButton
             // 
             this.NewAccountButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NewAccountButton.Location = new System.Drawing.Point(162, 179);
+            this.NewAccountButton.Location = new System.Drawing.Point(119, 147);
             this.NewAccountButton.Name = "NewAccountButton";
             this.NewAccountButton.Size = new System.Drawing.Size(113, 23);
             this.NewAccountButton.TabIndex = 4;
@@ -136,7 +137,6 @@
             this.SavingsRadioButton.Name = "SavingsRadioButton";
             this.SavingsRadioButton.Size = new System.Drawing.Size(75, 20);
             this.SavingsRadioButton.TabIndex = 11;
-            this.SavingsRadioButton.TabStop = true;
             this.SavingsRadioButton.Text = "Savings";
             this.SavingsRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -153,11 +153,22 @@
             this.CheckingRadioButton.Text = "Checking";
             this.CheckingRadioButton.UseVisualStyleBackColor = true;
             // 
+            // AccountListBox
+            // 
+            this.AccountListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AccountListBox.FormattingEnabled = true;
+            this.AccountListBox.ItemHeight = 16;
+            this.AccountListBox.Location = new System.Drawing.Point(451, 12);
+            this.AccountListBox.Name = "AccountListBox";
+            this.AccountListBox.Size = new System.Drawing.Size(359, 260);
+            this.AccountListBox.TabIndex = 13;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 9F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(423, 284);
+            this.ClientSize = new System.Drawing.Size(822, 284);
+            this.Controls.Add(this.AccountListBox);
             this.Controls.Add(this.CheckingRadioButton);
             this.Controls.Add(this.SavingsRadioButton);
             this.Controls.Add(this.AccontTypeLabel);
@@ -175,6 +186,7 @@
             this.Name = "MainForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "Teller UI";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -194,5 +206,6 @@
         private System.Windows.Forms.Label AccontTypeLabel;
         private System.Windows.Forms.RadioButton SavingsRadioButton;
         private System.Windows.Forms.RadioButton CheckingRadioButton;
+        private System.Windows.Forms.ListBox AccountListBox;
     }
 }

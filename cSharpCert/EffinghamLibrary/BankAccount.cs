@@ -204,6 +204,11 @@ namespace EffinghamLibrary
             info.AddValue(custNameStr, this.CustomerName);
             info.AddValue(balNameStr, this.Balance);
         }
+
+        public override string ToString()
+        {
+            return String.Format("Acct #:{0} Name:{1} Balance:{2:c}", AccountNumber, CustomerName, Balance);
+        }
         #endregion Methods
     }
 }

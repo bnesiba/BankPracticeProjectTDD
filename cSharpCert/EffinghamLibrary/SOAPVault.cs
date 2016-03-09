@@ -80,7 +80,7 @@ namespace EffinghamLibrary
 
             if (!delayWrite)
             {
-                   //TODO: write accounts to disk
+                WriteAccounts();
             }
         }
 
@@ -114,7 +114,7 @@ namespace EffinghamLibrary
             
             if (!delayWrite)
             {
-                //TODO: write accounts to list
+                WriteAccounts();
             }
         }
         /// <summary>
@@ -147,7 +147,7 @@ namespace EffinghamLibrary
 
             if (!delayWrite)
             {
-                //TODO: write accounts to list
+                WriteAccounts();
             }
         }
 
@@ -156,36 +156,100 @@ namespace EffinghamLibrary
         /// </summary>
         public void FlushAccounts()
         {
-            throw new NotImplementedException();
+            WriteAccounts();
         }
         #endregion IVault Methods
 
         #region ReadWrite Methods
-
+        /// <summary>
+        /// Retrieve Accounts from file
+        /// </summary>
         private void ReadAccounts()
         {
-            
-        }
+            ArrayList tempList;
 
+            localLock.EnterWriteLock();
+            try
+            {
+                if (!File.Exists(DATAFILE))
+                {
+                    accounts = new List<BankAccount>();
+                    isFlushed = true;
+                    return;
+                }
+            }
+            finally
+            {
+                if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
+            }
+
+            lock (fileLock)
+            {
+                using (FileStream fs = new FileStream(DATAFILE, FileMode.OpenOrCreate))
+                {
+                    if (fs.Length == 0)
+                    {
+                        localLock.EnterWriteLock();
+                        try
+                        {
+                            accounts = new List<BankAccount>();
+                            isFlushed = true;
+                        }
+                        finally
+                        {
+                            if(localLock.IsWriteLockHeld) localLock.ExitWriteLock();
+                        }
+                        
+                    }
+                    else
+                    {
+                        SoapFormatter formatter = new SoapFormatter();
+                        tempList = formatter.Deserialize(fs) as ArrayList;
+
+                        localLock.EnterWriteLock();
+                        try
+                        {
+                            accounts = tempList.Cast<BankAccount>().ToList();
+                        }
+                        finally
+                        {
+                            if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
+                        }
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Write BankAccounts to File
+        /// </summary>
         private void WriteAccounts()
         {
             ArrayList tempList;
             localLock.EnterReadLock();
             try
             {
+                if (isFlushed)
+                {
+                    return;
+                }
                 tempList = new ArrayList(accounts);
             }
             finally
             {
                 if(localLock.IsReadLockHeld) localLock.ExitReadLock();
             }
-            using (FileStream outFile = File.OpenWrite(DATAFILE))
+
+            lock (fileLock)
             {
-                SoapFormatter formatter = new SoapFormatter();
-                formatter.Serialize(outFile, tempList);
-            }
-            
-            
+                using (FileStream outFile = File.OpenWrite(DATAFILE))
+                {
+                    SoapFormatter formatter = new SoapFormatter();
+                    formatter.Serialize(outFile, tempList);
+                    localLock.EnterWriteLock();
+                    isFlushed = true;
+                    localLock.ExitWriteLock();
+                }
+            }            
         }
         #endregion ReadWrite Methods
 
@@ -201,7 +265,7 @@ namespace EffinghamLibrary
                 {
                     // TODO: dispose managed state (managed objects).
                 }
-
+                WriteAccounts();
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
 
@@ -241,7 +305,7 @@ namespace EffinghamLibrary
         }
         private SOAPVault()
         {
-            accounts = new List<BankAccount>();
+            ReadAccounts();
         }
         #endregion Singleton
     }

@@ -71,6 +71,11 @@ namespace EffinghamLibrary
                 }
             }
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + " Type: Checking";
+        }
         #endregion Methods
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace EffinghamLibrary
 {
+    [Serializable]
     public sealed class SavingsAccount : BankAccount, IInterestBearing
     {
         #region Fields and Properties
@@ -46,6 +47,11 @@ namespace EffinghamLibrary
             {
                 this.Deposit(Balance * SavingsAccount.MonthlyRate);
             }
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + " Type: Savings";
         }
         #endregion Methods
 

@@ -31,21 +31,21 @@ namespace TellerUI
                     ba = new SavingsAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,
                         (CurrencyType)CurrencyTypeComboBox.SelectedItem);
 
-                    MessageBox.Show(String.Format("Customer Name: {0}\nBalance: {1}\nCurrency: {2}", ba.CustomerName, ba.Balance, CurrencyTypeComboBox.SelectedItem), "Savings Account Created!");
+                    //MessageBox.Show(String.Format("Customer Name: {0}\nBalance: {1}\nCurrency: {2}", ba.CustomerName, ba.Balance, CurrencyTypeComboBox.SelectedItem), "Savings Account Created!");
                 }
                 else
                 {
                     ba = new CheckingAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,
                         (CurrencyType)CurrencyTypeComboBox.SelectedItem);
 
-                    MessageBox.Show(String.Format("Customer Name: {0}\nBalance: {1}\nCurrency: {2}", ba.CustomerName, ba.Balance, CurrencyTypeComboBox.SelectedItem), "Checking Account Created!");
+                    //MessageBox.Show(String.Format("Customer Name: {0}\nBalance: {1}\nCurrency: {2}", ba.CustomerName, ba.Balance, CurrencyTypeComboBox.SelectedItem), "Checking Account Created!");
                 }
                 vault.AddAccount(ba);
                 SummarizeAccounts();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Account Creation Failed");
+                MessageBox.Show("Account Creation Failed");
                 
             }
         }
@@ -53,6 +53,7 @@ namespace TellerUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             CurrencyTypeComboBox.DataSource = Enum.GetValues(typeof(CurrencyType));
+            SummarizeAccounts();
         }
 
         private void SummarizeAccounts()
@@ -62,6 +63,7 @@ namespace TellerUI
                 decimal totalAmt = 0m;
                 int numChecking = 0;
                 int numSavings = 0;
+                List<BankAccount> accountList = new List<BankAccount>();
 
                 foreach (BankAccount ba in vault.GetAccounts())
                 {
@@ -69,10 +71,12 @@ namespace TellerUI
                     if (ba is CheckingAccount)
                     {
                         numChecking++;
+                        accountList.Add(ba);
                     }
                     else if (ba is SavingsAccount)
                     {
                         numSavings++;
+                        accountList.Add(ba);
                     }
                     else
                     {
@@ -81,12 +85,18 @@ namespace TellerUI
                 }
                 BranchInfoLabel.Text = String.Format("${0} Total. Checking Accounts:{1}  Savings Accounts:{2}", totalAmt, numChecking,
                     numSavings);
+                AccountListBox.DataSource = accountList;
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("In SummarizeAccounts: "+ex.Message);
             }
             
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            vault.Dispose();
         }
     }
 }
