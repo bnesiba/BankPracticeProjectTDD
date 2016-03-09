@@ -85,6 +85,7 @@ namespace TellerUI
                 }
                 BranchInfoLabel.Text = String.Format("${0} Total. Checking Accounts:{1}  Savings Accounts:{2}", totalAmt, numChecking,
                     numSavings);
+                accountList.Sort();
                 AccountListBox.DataSource = accountList;
             }
             catch (Exception ex)
