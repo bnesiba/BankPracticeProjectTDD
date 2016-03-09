@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EffinghamLibrary
 {
    [Serializable]
-    public abstract class BankAccount : /*IBankAccount,*/ IBankAccountMultipleCurrency, ISerializable, IComparable<BankAccount>
+    public abstract class BankAccount : /*IBankAccount,*/ IBankAccountMultipleCurrency, ISerializable
     {
         #region Fields and Properties
         //static
@@ -210,20 +210,20 @@ namespace EffinghamLibrary
             return String.Format("Acct #:{0}({1}) Balance:{2:c}", AccountNumber, CustomerName, Balance);
         }
 
-        public int CompareTo(BankAccount other)
-        {
-            int result = CustomerName.CompareTo(other.CustomerName);
-            if (result == 0)
-            {
-                result = other.Balance.CompareTo(this.Balance);
-                if (result == 0)
-                {
-                    //result = this.AccountNumber.CompareTo(other.AccountNumber);
-                    result = this.GetType().ToString().CompareTo(other.GetType().ToString());
-                }
-            }
-            return result;
-        }
+        //public int CompareTo(BankAccount other)
+        //{
+        //    int result = CustomerName.CompareTo(other.CustomerName);
+        //    if (result == 0)
+        //    {
+        //        result = other.Balance.CompareTo(this.Balance);
+        //        if (result == 0)
+        //        {
+        //            //result = this.AccountNumber.CompareTo(other.AccountNumber);
+        //            result = this.GetType().ToString().CompareTo(other.GetType().ToString());
+        //        }
+        //    }
+        //    return result;
+        //}
 
         #endregion Methods
     }
