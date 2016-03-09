@@ -33,5 +33,13 @@ namespace EffinghamLibraryTests
             ca.Withdraw(amt);
 
         }
+
+        [TestMethod]
+        public void ZeroBalancetest()
+        {
+            CheckingAccount ca = new CheckingAccount(testAmt, testName);
+            ca.Withdraw(testAmt);
+            Assert.AreEqual(0, ca.Balance);
+        }
     }
 }

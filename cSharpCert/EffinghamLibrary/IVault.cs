@@ -13,13 +13,13 @@ namespace EffinghamLibrary
     {
 
         //Read Data
-        IEnumerable<IBankAccountMultipleCurrency> GetAccounts();
-        IBankAccountMultipleCurrency GetAccount(int accountNumber);
+        IEnumerable<BankAccount> GetAccounts();
+        BankAccount GetAccount(int accountNumber);
 
         //Write Data
-        void AddAccount(IBankAccountMultipleCurrency acct, bool delayWrite = false);
-        void UpdateAccount(IBankAccountMultipleCurrency acct, bool delayWrite = false);
-        void Deleteaccount(IBankAccountMultipleCurrency acct, bool delayWrite = false);
+        void AddAccount(BankAccount acct, bool delayWrite = false);
+        void UpdateAccount(BankAccount acct, bool delayWrite = false);
+        void Deleteaccount(BankAccount acct, bool delayWrite = false);
         void FlushAccounts();
     }
 }

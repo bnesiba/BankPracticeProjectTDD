@@ -19,7 +19,7 @@ namespace EffinghamLibraryTests
 
                 //Assert
                 Assert.IsNotNull(accounts);
-                Assert.IsTrue(accounts is IEnumerable<IBankAccountMultipleCurrency>);
+                Assert.IsTrue(accounts is IEnumerable<BankAccount>);
             }
         }
 

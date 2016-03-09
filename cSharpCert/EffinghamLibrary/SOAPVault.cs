@@ -1,44 +1,194 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EffinghamLibrary
 {
     public class SOAPVault : IVault
     {
+        #region Fields and Properties
+
+        private const string DATAFILE = @"Accounts.dat";
+        private List<BankAccount> accounts;
+        private bool isFlushed = false;
+        private object fileLock = new object();
+
+        private ReaderWriterLockSlim localLock = new ReaderWriterLockSlim();
+
+        #endregion Fields and Properties
         #region IVault Methods
-        public IEnumerable<IBankAccountMultipleCurrency> GetAccounts()
+        /// <summary>
+        /// Get accounts from vault
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<BankAccount> GetAccounts()
         {
-            throw new NotImplementedException();
+            localLock.EnterReadLock();
+            try
+            {
+                return accounts.AsEnumerable();
+            }
+            finally
+            {
+                if(localLock.IsReadLockHeld) localLock.ExitReadLock();
+            }
+            
         }
 
-        public IBankAccountMultipleCurrency GetAccount(int accountNumber)
+        /// <summary>
+        /// Get account by account number
+        /// </summary>
+        /// <param name="accountNumber">Account to retrieve</param>
+        /// <returns>BankAccount associated with accountNumber</returns>
+        public BankAccount GetAccount(int accountNumber)
         {
-            throw new NotImplementedException();
+            localLock.EnterReadLock();
+            try
+            {             
+                return accounts.SingleOrDefault(x => x.AccountNumber == accountNumber);
+            }
+            finally
+            {
+                if (localLock.IsReadLockHeld) localLock.ExitReadLock();
+            }
+            
         }
 
-        public void AddAccount(IBankAccountMultipleCurrency acct, bool delayWrite = false)
+        /// <summary>
+        /// Add BankAccount to vault
+        /// </summary>
+        /// <param name="acct">BankAccount to add</param>
+        /// <param name="delayWrite">Delay writing for efficiency when writing large number of accounts</param>
+        public void AddAccount(BankAccount acct, bool delayWrite = false)
         {
-            throw new NotImplementedException();
+            localLock.EnterWriteLock();
+            try
+            {
+                accounts.Add(acct);
+                isFlushed = false;
+            }
+            finally
+            {
+                if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
+            }
+
+            if (!delayWrite)
+            {
+                   //TODO: write accounts to disk
+            }
         }
 
-        public void UpdateAccount(IBankAccountMultipleCurrency acct, bool delayWrite = false)
+        /// <summary>
+        /// Update an account in the Vault
+        /// </summary>
+        /// <param name="acct">Account to update</param>
+        /// <param name="delayWrite">Delay writing for efficiency when writing large number of accounts</param>
+        public void UpdateAccount(BankAccount acct, bool delayWrite = false)
         {
-            throw new NotImplementedException();
+            localLock.EnterUpgradeableReadLock();
+            try
+            {
+                int i = accounts.FindIndex(x => x.AccountNumber == acct.AccountNumber);
+                if (i >= 0)
+                {
+                    localLock.EnterWriteLock();
+                    accounts[i] = acct;
+                    isFlushed = false;
+                }
+                else
+                {
+                    throw new ApplicationException(String.Format("Update Failed\nAccount {0} not found", acct.AccountNumber));
+                }
+            }
+            finally
+            {
+                if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
+                if (localLock.IsUpgradeableReadLockHeld) localLock.ExitUpgradeableReadLock();
+            }
+            
+            if (!delayWrite)
+            {
+                //TODO: write accounts to list
+            }
+        }
+        /// <summary>
+        /// Delete a BankAccount from the vault
+        /// </summary>
+        /// <param name="acct">BankAccount to delete</param>
+        /// <param name="delayWrite">Delay writing for efficiency when writing large number of accounts</param>
+        public void Deleteaccount(BankAccount acct, bool delayWrite = false)
+        {
+            localLock.EnterUpgradeableReadLock();
+            try
+            {
+                int i = accounts.FindIndex(x => x.AccountNumber == acct.AccountNumber);
+                if (i >= 0)
+                {
+                    localLock.EnterWriteLock();
+                    accounts.RemoveAt(i);
+                    isFlushed = false;
+                }
+                else
+                {
+                    throw new ApplicationException(String.Format("Delete Failed\nAccount {0} not found", acct.AccountNumber));
+                }
+            }
+            finally
+            {
+                if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
+                if (localLock.IsUpgradeableReadLockHeld) localLock.ExitUpgradeableReadLock();
+            }
+
+            if (!delayWrite)
+            {
+                //TODO: write accounts to list
+            }
         }
 
-        public void Deleteaccount(IBankAccountMultipleCurrency acct, bool delayWrite = false)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Write all data to disk
+        /// </summary>
         public void FlushAccounts()
         {
             throw new NotImplementedException();
         }
         #endregion IVault Methods
+
+        #region ReadWrite Methods
+
+        private void ReadAccounts()
+        {
+            
+        }
+
+        private void WriteAccounts()
+        {
+            ArrayList tempList;
+            localLock.EnterReadLock();
+            try
+            {
+                tempList = new ArrayList(accounts);
+            }
+            finally
+            {
+                if(localLock.IsReadLockHeld) localLock.ExitReadLock();
+            }
+            using (FileStream outFile = File.OpenWrite(DATAFILE))
+            {
+                SoapFormatter formatter = new SoapFormatter();
+                formatter.Serialize(outFile, tempList);
+            }
+            
+            
+        }
+        #endregion ReadWrite Methods
+
 
         #region IDisposable Support
         private bool IsDisposed = false; // To detect redundant calls
@@ -91,7 +241,7 @@ namespace EffinghamLibrary
         }
         private SOAPVault()
         {
-            
+            accounts = new List<BankAccount>();
         }
         #endregion Singleton
     }

@@ -45,7 +45,7 @@
             // 
             this.CustomerNameLabel.AutoSize = true;
             this.CustomerNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CustomerNameLabel.Location = new System.Drawing.Point(12, 43);
+            this.CustomerNameLabel.Location = new System.Drawing.Point(5, 15);
             this.CustomerNameLabel.Name = "CustomerNameLabel";
             this.CustomerNameLabel.Size = new System.Drawing.Size(108, 16);
             this.CustomerNameLabel.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             this.StartingAmountLabel.AutoSize = true;
             this.StartingAmountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StartingAmountLabel.Location = new System.Drawing.Point(11, 71);
+            this.StartingAmountLabel.Location = new System.Drawing.Point(4, 43);
             this.StartingAmountLabel.Name = "StartingAmountLabel";
             this.StartingAmountLabel.Size = new System.Drawing.Size(109, 16);
             this.StartingAmountLabel.TabIndex = 1;
@@ -64,15 +64,15 @@
             // CustomerNameTextBox
             // 
             this.CustomerNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CustomerNameTextBox.Location = new System.Drawing.Point(126, 40);
+            this.CustomerNameTextBox.Location = new System.Drawing.Point(119, 12);
             this.CustomerNameTextBox.Name = "CustomerNameTextBox";
-            this.CustomerNameTextBox.Size = new System.Drawing.Size(156, 22);
+            this.CustomerNameTextBox.Size = new System.Drawing.Size(292, 22);
             this.CustomerNameTextBox.TabIndex = 2;
             // 
             // NewAccountButton
             // 
             this.NewAccountButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NewAccountButton.Location = new System.Drawing.Point(169, 207);
+            this.NewAccountButton.Location = new System.Drawing.Point(162, 179);
             this.NewAccountButton.Name = "NewAccountButton";
             this.NewAccountButton.Size = new System.Drawing.Size(113, 23);
             this.NewAccountButton.TabIndex = 4;
@@ -83,9 +83,9 @@
             // StartingBalanceTextBox
             // 
             this.StartingBalanceTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StartingBalanceTextBox.Location = new System.Drawing.Point(126, 68);
+            this.StartingBalanceTextBox.Location = new System.Drawing.Point(119, 40);
             this.StartingBalanceTextBox.Name = "StartingBalanceTextBox";
-            this.StartingBalanceTextBox.Size = new System.Drawing.Size(156, 22);
+            this.StartingBalanceTextBox.Size = new System.Drawing.Size(292, 22);
             this.StartingBalanceTextBox.TabIndex = 5;
             // 
             // BranchInfoLabel
@@ -102,7 +102,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(21, 148);
+            this.label1.Location = new System.Drawing.Point(14, 120);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 16);
             this.label1.TabIndex = 7;
@@ -113,7 +113,7 @@
             this.CurrencyTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CurrencyTypeComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CurrencyTypeComboBox.FormattingEnabled = true;
-            this.CurrencyTypeComboBox.Location = new System.Drawing.Point(126, 145);
+            this.CurrencyTypeComboBox.Location = new System.Drawing.Point(119, 117);
             this.CurrencyTypeComboBox.Name = "CurrencyTypeComboBox";
             this.CurrencyTypeComboBox.Size = new System.Drawing.Size(156, 24);
             this.CurrencyTypeComboBox.TabIndex = 8;
@@ -122,7 +122,7 @@
             // 
             this.AccontTypeLabel.AutoSize = true;
             this.AccontTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AccontTypeLabel.Location = new System.Drawing.Point(21, 97);
+            this.AccontTypeLabel.Location = new System.Drawing.Point(14, 69);
             this.AccontTypeLabel.Name = "AccontTypeLabel";
             this.AccontTypeLabel.Size = new System.Drawing.Size(94, 16);
             this.AccontTypeLabel.TabIndex = 9;
@@ -132,7 +132,7 @@
             // 
             this.SavingsRadioButton.AutoSize = true;
             this.SavingsRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SavingsRadioButton.Location = new System.Drawing.Point(126, 119);
+            this.SavingsRadioButton.Location = new System.Drawing.Point(119, 91);
             this.SavingsRadioButton.Name = "SavingsRadioButton";
             this.SavingsRadioButton.Size = new System.Drawing.Size(75, 20);
             this.SavingsRadioButton.TabIndex = 11;
@@ -143,8 +143,9 @@
             // CheckingRadioButton
             // 
             this.CheckingRadioButton.AutoSize = true;
+            this.CheckingRadioButton.Checked = true;
             this.CheckingRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CheckingRadioButton.Location = new System.Drawing.Point(126, 93);
+            this.CheckingRadioButton.Location = new System.Drawing.Point(119, 65);
             this.CheckingRadioButton.Name = "CheckingRadioButton";
             this.CheckingRadioButton.Size = new System.Drawing.Size(82, 20);
             this.CheckingRadioButton.TabIndex = 12;
@@ -156,7 +157,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 9F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(316, 284);
+            this.ClientSize = new System.Drawing.Size(423, 284);
             this.Controls.Add(this.CheckingRadioButton);
             this.Controls.Add(this.SavingsRadioButton);
             this.Controls.Add(this.AccontTypeLabel);
