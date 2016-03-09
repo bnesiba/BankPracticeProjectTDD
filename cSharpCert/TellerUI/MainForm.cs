@@ -53,6 +53,7 @@ namespace TellerUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             CurrencyTypeComboBox.DataSource = Enum.GetValues(typeof(CurrencyType));
+            SortComboBox.SelectedIndex = 0;
             SummarizeAccounts();
         }
 
@@ -85,8 +86,24 @@ namespace TellerUI
                 }
                 BranchInfoLabel.Text = String.Format("${0} Total. Checking Accounts:{1}  Savings Accounts:{2}", totalAmt, numChecking,
                     numSavings);
-                accountList.Sort();
-                AccountListBox.DataSource = accountList;
+                ArrangeAccounts();
+                //accountList.Sort();
+                /*switch (SortComboBox.SelectedIndex)
+                {
+                    case 0:
+                        accountList.Sort((x, y) => x.AccountNumber.CompareTo(y.AccountNumber));
+                        break;
+                    case 1:
+                        accountList.Sort((x, y) => x.CustomerName.CompareTo(y.CustomerName));
+                        break;
+                    case 2:
+                        accountList.Sort((x, y) => y.Balance.CompareTo(x.Balance));
+                        break;
+                    default:
+                        break;
+                        
+                }
+                AccountListBox.DataSource = accountList;*/
             }
             catch (Exception ex)
             {
@@ -95,9 +112,47 @@ namespace TellerUI
             
         }
 
+        private void ArrangeAccounts()
+        {
+            List<BankAccount> accountList = vault.GetAccounts().ToList<BankAccount>();
+            switch (SortComboBox.SelectedIndex)
+            {
+                case 0:
+                    accountList.Sort((x, y) => x.AccountNumber.CompareTo(y.AccountNumber));
+                    break;
+                case 1:
+                    //accountList.Sort((x, y) => x.CustomerName.CompareTo(y.CustomerName
+                    accountList.Sort(CustomerNameComparer);
+                    break;
+                case 2:
+                    accountList.Sort((x, y) => y.Balance.CompareTo(x.Balance));
+                    break;
+                default:
+                    throw new ApplicationException("Invalid Sort Method");
+                    break;
+
+            }
+            AccountListBox.DataSource = accountList;
+        }
+
+        private int CustomerNameComparer(BankAccount a, BankAccount b)
+        {
+            int result = a.CustomerName.CompareTo(b.CustomerName);
+            if (result == 0)
+            {
+                result = b.Balance.CompareTo(a.Balance);
+            }
+            return result;
+        }
+
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             vault.Dispose();
+        }
+
+        private void SortComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ArrangeAccounts();
         }
     }
 }

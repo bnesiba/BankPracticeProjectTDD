@@ -40,6 +40,8 @@
             this.SavingsRadioButton = new System.Windows.Forms.RadioButton();
             this.CheckingRadioButton = new System.Windows.Forms.RadioButton();
             this.AccountListBox = new System.Windows.Forms.ListBox();
+            this.SortLabel = new System.Windows.Forms.Label();
+            this.SortComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // CustomerNameLabel
@@ -158,16 +160,43 @@
             this.AccountListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AccountListBox.FormattingEnabled = true;
             this.AccountListBox.ItemHeight = 16;
-            this.AccountListBox.Location = new System.Drawing.Point(451, 12);
+            this.AccountListBox.Location = new System.Drawing.Point(451, 44);
             this.AccountListBox.Name = "AccountListBox";
-            this.AccountListBox.Size = new System.Drawing.Size(359, 260);
+            this.AccountListBox.Size = new System.Drawing.Size(359, 228);
             this.AccountListBox.TabIndex = 13;
+            // 
+            // SortLabel
+            // 
+            this.SortLabel.AutoSize = true;
+            this.SortLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SortLabel.Location = new System.Drawing.Point(448, 18);
+            this.SortLabel.Name = "SortLabel";
+            this.SortLabel.Size = new System.Drawing.Size(54, 16);
+            this.SortLabel.TabIndex = 14;
+            this.SortLabel.Text = "Sort By:";
+            // 
+            // SortComboBox
+            // 
+            this.SortComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SortComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SortComboBox.FormattingEnabled = true;
+            this.SortComboBox.Items.AddRange(new object[] {
+            "Account #",
+            "Customer Name",
+            "Balance(Desc)"});
+            this.SortComboBox.Location = new System.Drawing.Point(508, 14);
+            this.SortComboBox.Name = "SortComboBox";
+            this.SortComboBox.Size = new System.Drawing.Size(121, 24);
+            this.SortComboBox.TabIndex = 15;
+            this.SortComboBox.SelectedIndexChanged += new System.EventHandler(this.SortComboBox_SelectedIndexChanged);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 9F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(822, 284);
+            this.Controls.Add(this.SortComboBox);
+            this.Controls.Add(this.SortLabel);
             this.Controls.Add(this.AccountListBox);
             this.Controls.Add(this.CheckingRadioButton);
             this.Controls.Add(this.SavingsRadioButton);
@@ -181,6 +210,7 @@
             this.Controls.Add(this.StartingAmountLabel);
             this.Controls.Add(this.CustomerNameLabel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "MainForm";
@@ -207,5 +237,7 @@
         private System.Windows.Forms.RadioButton SavingsRadioButton;
         private System.Windows.Forms.RadioButton CheckingRadioButton;
         private System.Windows.Forms.ListBox AccountListBox;
+        private System.Windows.Forms.Label SortLabel;
+        private System.Windows.Forms.ComboBox SortComboBox;
     }
 }
