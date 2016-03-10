@@ -42,6 +42,8 @@
             this.AccountListBox = new System.Windows.Forms.ListBox();
             this.SortLabel = new System.Windows.Forms.Label();
             this.SortComboBox = new System.Windows.Forms.ComboBox();
+            this.FilterLabel = new System.Windows.Forms.Label();
+            this.FilterComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // CustomerNameLabel
@@ -190,11 +192,38 @@
             this.SortComboBox.TabIndex = 15;
             this.SortComboBox.SelectedIndexChanged += new System.EventHandler(this.SortComboBox_SelectedIndexChanged);
             // 
+            // FilterLabel
+            // 
+            this.FilterLabel.AutoSize = true;
+            this.FilterLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FilterLabel.Location = new System.Drawing.Point(635, 18);
+            this.FilterLabel.Name = "FilterLabel";
+            this.FilterLabel.Size = new System.Drawing.Size(40, 16);
+            this.FilterLabel.TabIndex = 16;
+            this.FilterLabel.Text = "Filter:";
+            // 
+            // FilterComboBox
+            // 
+            this.FilterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.FilterComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FilterComboBox.FormattingEnabled = true;
+            this.FilterComboBox.Items.AddRange(new object[] {
+            "All",
+            "Savings",
+            "Checking"});
+            this.FilterComboBox.Location = new System.Drawing.Point(681, 14);
+            this.FilterComboBox.Name = "FilterComboBox";
+            this.FilterComboBox.Size = new System.Drawing.Size(121, 24);
+            this.FilterComboBox.TabIndex = 17;
+            this.FilterComboBox.SelectedIndexChanged += new System.EventHandler(this.FilterComboBox_SelectedIndexChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 9F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(822, 284);
+            this.Controls.Add(this.FilterComboBox);
+            this.Controls.Add(this.FilterLabel);
             this.Controls.Add(this.SortComboBox);
             this.Controls.Add(this.SortLabel);
             this.Controls.Add(this.AccountListBox);
@@ -239,5 +268,7 @@
         private System.Windows.Forms.ListBox AccountListBox;
         private System.Windows.Forms.Label SortLabel;
         private System.Windows.Forms.ComboBox SortComboBox;
+        private System.Windows.Forms.Label FilterLabel;
+        private System.Windows.Forms.ComboBox FilterComboBox;
     }
 }

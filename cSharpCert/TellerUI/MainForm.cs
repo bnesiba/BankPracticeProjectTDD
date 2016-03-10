@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,14 +32,12 @@ namespace TellerUI
                     ba = new SavingsAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,
                         (CurrencyType)CurrencyTypeComboBox.SelectedItem);
 
-                    //MessageBox.Show(String.Format("Customer Name: {0}\nBalance: {1}\nCurrency: {2}", ba.CustomerName, ba.Balance, CurrencyTypeComboBox.SelectedItem), "Savings Account Created!");
                 }
                 else
                 {
                     ba = new CheckingAccount(Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,
                         (CurrencyType)CurrencyTypeComboBox.SelectedItem);
 
-                    //MessageBox.Show(String.Format("Customer Name: {0}\nBalance: {1}\nCurrency: {2}", ba.CustomerName, ba.Balance, CurrencyTypeComboBox.SelectedItem), "Checking Account Created!");
                 }
                 vault.AddAccount(ba);
                 SummarizeAccounts();
@@ -66,6 +65,8 @@ namespace TellerUI
                 int numSavings = 0;
                 List<BankAccount> accountList = new List<BankAccount>();
 
+
+
                 foreach (BankAccount ba in vault.GetAccounts())
                 {
                     totalAmt += ba.Balance;
@@ -86,24 +87,9 @@ namespace TellerUI
                 }
                 BranchInfoLabel.Text = String.Format("${0} Total. Checking Accounts:{1}  Savings Accounts:{2}", totalAmt, numChecking,
                     numSavings);
-                ArrangeAccounts();
-                //accountList.Sort();
-                /*switch (SortComboBox.SelectedIndex)
-                {
-                    case 0:
-                        accountList.Sort((x, y) => x.AccountNumber.CompareTo(y.AccountNumber));
-                        break;
-                    case 1:
-                        accountList.Sort((x, y) => x.CustomerName.CompareTo(y.CustomerName));
-                        break;
-                    case 2:
-                        accountList.Sort((x, y) => y.Balance.CompareTo(x.Balance));
-                        break;
-                    default:
-                        break;
-                        
-                }
-                AccountListBox.DataSource = accountList;*/
+
+                accountList = FilterAccounts(accountList);
+                ArrangeAccounts(accountList);
             }
             catch (Exception ex)
             {
@@ -112,9 +98,19 @@ namespace TellerUI
             
         }
 
-        private void ArrangeAccounts()
+        private void ArrangeAccounts(List<BankAccount> list = null)
         {
-            List<BankAccount> accountList = vault.GetAccounts().ToList<BankAccount>();
+            List<BankAccount> accountList;
+            if (list != null)
+            {
+                accountList = list;
+            }
+            else
+            {
+                accountList = vault.GetAccounts().ToList<BankAccount>();
+                accountList = FilterAccounts(accountList);
+            }
+            
             switch (SortComboBox.SelectedIndex)
             {
                 case 0:
@@ -135,6 +131,27 @@ namespace TellerUI
             AccountListBox.DataSource = accountList;
         }
 
+        private List<BankAccount> FilterAccounts(List<BankAccount> list)
+        {
+
+            switch (FilterComboBox.SelectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    list = (from x in list
+                           where x is SavingsAccount
+                           select x).ToList<BankAccount>();
+                    break;
+                case 2:
+                    list = list.Where<BankAccount>(x => x is CheckingAccount).ToList<BankAccount>();
+                    break;
+                default:
+                    break;
+            }
+            return list;
+        }
+
         private int CustomerNameComparer(BankAccount a, BankAccount b)
         {
             int result = a.CustomerName.CompareTo(b.CustomerName);
@@ -151,6 +168,11 @@ namespace TellerUI
         }
 
         private void SortComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ArrangeAccounts();
+        }
+
+        private void FilterComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ArrangeAccounts();
         }
