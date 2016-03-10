@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Soap;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -183,7 +186,63 @@ namespace EffinghamLibrary
                 if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
             }
 
-            lock (fileLock)
+            //Encrypted Write
+            string encryptionKey = ConfigurationManager.AppSettings.Get("encryptionKey");
+            byte[] encryptionSalt = Encoding.Unicode.GetBytes(ConfigurationManager.AppSettings.Get("encryptionSalt"));
+
+            using (Rfc2898DeriveBytes rfc = new Rfc2898DeriveBytes(encryptionKey, encryptionSalt))
+            {
+                using (AesManaged aes = new AesManaged())
+                {
+                    aes.Padding = PaddingMode.PKCS7;
+                    aes.Key = rfc.GetBytes(aes.KeySize / 8);
+                    aes.IV = rfc.GetBytes(aes.BlockSize / 8);
+
+                    using (ICryptoTransform decryptor = aes.CreateDecryptor())
+                    {
+                        lock (fileLock)
+                        {
+                            using (FileStream fs = new FileStream(DATAFILE, FileMode.OpenOrCreate))
+                            {
+                                if (fs.Length == 0)
+                                {
+                                    localLock.EnterWriteLock();
+                                    try
+                                    {
+                                        accounts = new List<BankAccount>();
+                                        isFlushed = true;
+                                    }
+                                    finally
+                                    {
+                                        if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
+                                    }
+                                    return;
+                                }
+
+                                using (CryptoStream cs = new CryptoStream(fs, decryptor, CryptoStreamMode.Read))
+                                {
+                                    using (GZipStream zs = new GZipStream(cs, CompressionMode.Decompress))
+                                    {
+                                        SoapFormatter formatter = new SoapFormatter();
+                                        tempList = formatter.Deserialize(zs) as ArrayList;
+
+                                        localLock.EnterWriteLock();
+                                        try
+                                        {
+                                            accounts = tempList.Cast<BankAccount>().ToList();
+                                        }
+                                        finally
+                                        {
+                                            if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            /*lock (fileLock)
             {
                 using (FileStream fs = new FileStream(DATAFILE, FileMode.OpenOrCreate))
                 {
@@ -217,7 +276,7 @@ namespace EffinghamLibrary
                         }
                     }
                 }
-            }
+            }*/
         }
         /// <summary>
         /// Write BankAccounts to File
@@ -239,6 +298,41 @@ namespace EffinghamLibrary
                 if(localLock.IsReadLockHeld) localLock.ExitReadLock();
             }
 
+            //Encrypted Write
+            string encryptionKey = ConfigurationManager.AppSettings.Get("encryptionKey");
+            byte[] encryptionSalt = Encoding.Unicode.GetBytes(ConfigurationManager.AppSettings.Get("encryptionSalt"));
+
+            using (Rfc2898DeriveBytes rfc = new Rfc2898DeriveBytes(encryptionKey, encryptionSalt))
+            {
+                using (AesManaged aes = new AesManaged())
+                {
+                    aes.Padding = PaddingMode.PKCS7;
+                    aes.Key = rfc.GetBytes(aes.KeySize / 8);
+                    aes.IV = rfc.GetBytes(aes.BlockSize / 8);
+
+                    using (ICryptoTransform encryptor = aes.CreateEncryptor())
+                    {
+                        lock (fileLock)
+                        {
+                            using (FileStream fs = File.OpenWrite(DATAFILE))
+                            {
+                                using (CryptoStream cs = new CryptoStream(fs, encryptor, CryptoStreamMode.Write))
+                                {
+                                    using (GZipStream zs = new GZipStream(cs,CompressionLevel.Fastest,true))
+                                    {
+                                        SoapFormatter formatter = new SoapFormatter();
+                                        formatter.Serialize(zs, tempList);
+                                        localLock.EnterWriteLock();
+                                        isFlushed = true;
+                                        localLock.ExitWriteLock();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            /*
             lock (fileLock)
             {
                 using (FileStream outFile = File.OpenWrite(DATAFILE))
@@ -249,7 +343,7 @@ namespace EffinghamLibrary
                     isFlushed = true;
                     localLock.ExitWriteLock();
                 }
-            }            
+            }*/            
         }
         #endregion ReadWrite Methods
 
