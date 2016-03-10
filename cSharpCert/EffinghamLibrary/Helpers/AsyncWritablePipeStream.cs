@@ -9,6 +9,9 @@ using System.IO;
 
 namespace EffinghamLibrary
 {
+    /// <summary>
+    /// Class to allow writing to one stream while passing from another.
+    /// </summary>
     public class AsyncWritablePipeStream : AbstractStreamBase
     {
         private Stream writableStream;
@@ -29,6 +32,12 @@ namespace EffinghamLibrary
 
         public override bool CanWrite => true;
 
+        /// <summary>
+        /// Write Data to the output stream
+        /// </summary>
+        /// <param name="buffer">data to write</param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
         public override void Write(byte[] buffer, int offset, int count)
         {
             byte[] chunk = new byte[count];
