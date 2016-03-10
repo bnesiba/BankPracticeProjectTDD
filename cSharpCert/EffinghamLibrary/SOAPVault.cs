@@ -291,13 +291,16 @@ namespace EffinghamLibrary
                             {
                                 using (CryptoStream cs = new CryptoStream(fs, encryptor, CryptoStreamMode.Write))
                                 {
-                                    using (GZipStream zs = new GZipStream(cs,CompressionLevel.Fastest,true))
+                                    using (AsyncWritablePipeStream aws  = new AsyncWritablePipeStream(cs))
                                     {
-                                        SoapFormatter formatter = new SoapFormatter();
-                                        formatter.Serialize(zs, tempList);
-                                        localLock.EnterWriteLock();
-                                        isFlushed = true;
-                                        localLock.ExitWriteLock();
+                                        using (GZipStream zs = new GZipStream(aws, CompressionLevel.Fastest, true))
+                                        {
+                                            SoapFormatter formatter = new SoapFormatter();
+                                            formatter.Serialize(zs, tempList);
+                                            localLock.EnterWriteLock();
+                                            isFlushed = true;
+                                            localLock.ExitWriteLock();
+                                        }
                                     }
                                 }
                             }

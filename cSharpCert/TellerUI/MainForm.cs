@@ -70,7 +70,7 @@ namespace TellerUI
             FilterComboBox.SelectedIndex = 0;
             SummarizeAccounts();
         }
-        private async void SummarizeAccounts()
+        private void SummarizeAccounts()
         {
             try
             {
@@ -82,7 +82,7 @@ namespace TellerUI
                 
                 Task<IEnumerable<BankAccount>> ta = vault.GetAccountsAsync();
                 ta.Start();
-                Task.WaitAll(ta);
+                ta.Wait();
 
                 enumerable = ta.Result;
 
