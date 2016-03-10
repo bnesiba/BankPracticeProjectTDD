@@ -27,15 +27,23 @@ namespace TellerUI
             {
 
                 BankAccount ba;
+                decimal startingAmt;
+                bool sucessfulParse = Decimal.TryParse(StartingBalanceTextBox.Text, out startingAmt);
+                if (!sucessfulParse)
+                {
+                    MessageBox.Show("Starting Balance must be a number greater than 0","Invalid Starting Amount");
+                    return;
+                }
+
                 if (SavingsRadioButton.Checked)
                 {
-                    ba = new SavingsAccount(StartingBalanceTextBox.Text == ""?0:Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,
+                    ba = new SavingsAccount(startingAmt, CustomerNameTextBox.Text,
                         (CurrencyType)CurrencyTypeComboBox.SelectedItem);
 
                 }
                 else
                 {
-                    ba = new CheckingAccount(StartingBalanceTextBox.Text == "" ? 0 : Decimal.Parse(StartingBalanceTextBox.Text), CustomerNameTextBox.Text,
+                    ba = new CheckingAccount(startingAmt, CustomerNameTextBox.Text,
                         (CurrencyType)CurrencyTypeComboBox.SelectedItem);
 
                 }
@@ -60,7 +68,6 @@ namespace TellerUI
             FilterComboBox.SelectedIndex = 0;
             SummarizeAccounts();
         }
-
         private void SummarizeAccounts()
         {
             try
