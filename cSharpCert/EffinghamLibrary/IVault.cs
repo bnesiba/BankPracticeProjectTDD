@@ -13,6 +13,7 @@ namespace EffinghamLibrary
     {
 
         //Read Data
+        Task<IEnumerable<BankAccount>> GetAccountsAsync();
         IEnumerable<BankAccount> GetAccounts();
         BankAccount GetAccount(int accountNumber);
 

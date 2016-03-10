@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EffinghamLibrary;
@@ -68,7 +70,7 @@ namespace TellerUI
             FilterComboBox.SelectedIndex = 0;
             SummarizeAccounts();
         }
-        private void SummarizeAccounts()
+        private async void SummarizeAccounts()
         {
             try
             {
@@ -76,8 +78,15 @@ namespace TellerUI
                 int numChecking = 0;
                 int numSavings = 0;
                 List<BankAccount> accountList = new List<BankAccount>();
+                IEnumerable<BankAccount> enumerable;
+                
+                Task<IEnumerable<BankAccount>> ta = vault.GetAccountsAsync();
+                ta.Start();
+                Task.WaitAll(ta);
 
-                foreach (BankAccount ba in vault.GetAccounts())
+                enumerable = ta.Result;
+
+                foreach (BankAccount ba in enumerable)
                 {
                     totalAmt += ba.Balance;
                     if (ba is CheckingAccount)

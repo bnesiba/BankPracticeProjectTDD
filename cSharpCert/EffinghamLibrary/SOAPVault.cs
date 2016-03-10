@@ -26,6 +26,12 @@ namespace EffinghamLibrary
 
         #endregion Fields and Properties
         #region IVault Methods
+
+        public Task<IEnumerable<BankAccount>> GetAccountsAsync()
+        {
+            return new Task<IEnumerable<BankAccount>>(() =>GetAccounts());
+        }
+
         /// <summary>
         /// Get accounts from vault
         /// </summary>
