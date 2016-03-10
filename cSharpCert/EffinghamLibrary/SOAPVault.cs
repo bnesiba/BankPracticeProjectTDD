@@ -190,6 +190,7 @@ namespace EffinghamLibrary
             string encryptionKey = ConfigurationManager.AppSettings.Get("encryptionKey");
             byte[] encryptionSalt = Encoding.Unicode.GetBytes(ConfigurationManager.AppSettings.Get("encryptionSalt"));
 
+            //Note: Rfc2898DeriveBytes uses SHA1 which is not considered secure against well funded opponents.
             using (Rfc2898DeriveBytes rfc = new Rfc2898DeriveBytes(encryptionKey, encryptionSalt))
             {
                 using (AesManaged aes = new AesManaged())
@@ -242,41 +243,6 @@ namespace EffinghamLibrary
                     }
                 }
             }
-            /*lock (fileLock)
-            {
-                using (FileStream fs = new FileStream(DATAFILE, FileMode.OpenOrCreate))
-                {
-                    if (fs.Length == 0)
-                    {
-                        localLock.EnterWriteLock();
-                        try
-                        {
-                            accounts = new List<BankAccount>();
-                            isFlushed = true;
-                        }
-                        finally
-                        {
-                            if(localLock.IsWriteLockHeld) localLock.ExitWriteLock();
-                        }
-                        
-                    }
-                    else
-                    {
-                        SoapFormatter formatter = new SoapFormatter();
-                        tempList = formatter.Deserialize(fs) as ArrayList;
-
-                        localLock.EnterWriteLock();
-                        try
-                        {
-                            accounts = tempList.Cast<BankAccount>().ToList();
-                        }
-                        finally
-                        {
-                            if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
-                        }
-                    }
-                }
-            }*/
         }
         /// <summary>
         /// Write BankAccounts to File
@@ -302,6 +268,7 @@ namespace EffinghamLibrary
             string encryptionKey = ConfigurationManager.AppSettings.Get("encryptionKey");
             byte[] encryptionSalt = Encoding.Unicode.GetBytes(ConfigurationManager.AppSettings.Get("encryptionSalt"));
 
+            //Note: Rfc2898DeriveBytes uses SHA1 which is not considered secure against well funded opponents.
             using (Rfc2898DeriveBytes rfc = new Rfc2898DeriveBytes(encryptionKey, encryptionSalt))
             {
                 using (AesManaged aes = new AesManaged())
@@ -331,19 +298,7 @@ namespace EffinghamLibrary
                         }
                     }
                 }
-            }
-            /*
-            lock (fileLock)
-            {
-                using (FileStream outFile = File.OpenWrite(DATAFILE))
-                {
-                    SoapFormatter formatter = new SoapFormatter();
-                    formatter.Serialize(outFile, tempList);
-                    localLock.EnterWriteLock();
-                    isFlushed = true;
-                    localLock.ExitWriteLock();
-                }
-            }*/            
+            }         
         }
         #endregion ReadWrite Methods
 
