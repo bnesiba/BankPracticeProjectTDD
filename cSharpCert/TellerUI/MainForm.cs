@@ -68,7 +68,7 @@ namespace TellerUI
             FilterComboBox.SelectedIndex = 0;
             SummarizeAccounts();
         }
-        private async void SummarizeAccounts()
+        private void SummarizeAccounts()
         {
             try
             {
@@ -76,8 +76,6 @@ namespace TellerUI
                 int numChecking = 0;
                 int numSavings = 0;
                 List<BankAccount> accountList = new List<BankAccount>();
-
-                List<BankAccount> sortedList = (await vault.GetAccountsAsync()).ToList<BankAccount>();
 
                 foreach (BankAccount ba in vault.GetAccounts())
                 {
