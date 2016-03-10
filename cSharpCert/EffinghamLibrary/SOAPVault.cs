@@ -186,7 +186,7 @@ namespace EffinghamLibrary
                 if (localLock.IsWriteLockHeld) localLock.ExitWriteLock();
             }
 
-            //Encrypted Write
+            //Decrypt and read
             string encryptionKey = ConfigurationManager.AppSettings.Get("encryptionKey");
             byte[] encryptionSalt = Encoding.Unicode.GetBytes(ConfigurationManager.AppSettings.Get("encryptionSalt"));
 
