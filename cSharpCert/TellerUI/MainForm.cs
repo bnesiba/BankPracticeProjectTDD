@@ -101,6 +101,10 @@ namespace TellerUI
             
         }
 
+        /// <summary>
+        /// Organize accounts in accounts box on main form
+        /// </summary>
+        /// <param name="list">List of accounts. Retrieved from vault if not passed in</param>
         private void ArrangeAccounts(List<BankAccount> list = null)
         {
             try
@@ -130,19 +134,22 @@ namespace TellerUI
                         break;
                     default:
                         throw new ApplicationException("Invalid Sort Method");
-                        break;
 
                 }
                 AccountListBox.DataSource = accountList;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Retreiving Data","ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Error Retreiving Data:"+ex.Message,"ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //throw ex;
             }
             
         }
-
+        /// <summary>
+        /// Applies filter to accounts box on main form
+        /// </summary>
+        /// <param name="list">List of accounts</param>
+        /// <returns>Filtered List of accounts</returns>
         private List<BankAccount> FilterAccounts(List<BankAccount> list)
         {
 
