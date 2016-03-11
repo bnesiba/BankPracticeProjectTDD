@@ -21,7 +21,7 @@ namespace TellerUI
             Application.SetCompatibleTextRenderingDefault(false);
 
             container = new Container();
-            container.RegisterSingleton<IVault>(SOAPVault.Instance);
+            container.RegisterSingleton<IVault>(EFVault.Instance);
             container.Register<MainForm>();
 
             Application.Run(container.GetInstance<MainForm>());

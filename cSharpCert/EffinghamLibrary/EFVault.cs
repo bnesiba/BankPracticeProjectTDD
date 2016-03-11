@@ -13,47 +13,66 @@ namespace EffinghamLibrary
         #region Fields and Properties
 
         private DALContext db;
-        private object fileLock = new object();
+        private object objLock = new object();
         #endregion Fields and Properties
 
         #region IVault Methods
         public void AddAccount(BankAccount acct, bool delayWrite = false)
         {
-            db.DalAccounts.Add(acct.ToDALAccount());
-            if (!delayWrite)
+            lock (objLock)
             {
-                db.SaveChanges();
+                db.DalAccounts.Add(acct.ToDALAccount());
+            
+                if (!delayWrite)
+                {
+                    db.SaveChanges();
+                }
             }
+            
         }
 
         public void Deleteaccount(BankAccount acct, bool delayWrite = false)
         {
-            db.DalAccounts.Remove(acct.ToDALAccount());
+            lock (objLock)
+            {
+                db.DalAccounts.Remove(acct.ToDALAccount());
 
-            if (!delayWrite)
+                if (!delayWrite)
+                {
+                    db.SaveChanges();
+                }
+            }
+            
+        }
+
+        public void FlushAccounts()
+        {
+            lock (objLock)
             {
                 db.SaveChanges();
             }
         }
 
-        public void FlushAccounts()
-        {
-            db.SaveChanges();
-        }
-
         public BankAccount GetAccount(int accountNumber)
         {
-            DALAccount da;
-            da = db.DalAccounts.SingleOrDefault(x => x.AccountNumber == accountNumber);
+            lock (this.objLock)//defeats purpose of async
+            {
+                DALAccount da;
+                da = db.DalAccounts.SingleOrDefault(x => x.AccountNumber == accountNumber);
             
-            return da?.ToBankAccount();
+                return da?.ToBankAccount();
+            }
+            
         }
 
         public IEnumerable<BankAccount> GetAccounts()
         {
-            List<DALAccount> DALaccounts;
-            DALaccounts = db.DalAccounts.ToList();
-            return DALaccounts.ConvertAll<BankAccount>(x => x.ToBankAccount());
+            lock (objLock)
+            {
+                List<DALAccount> DALaccounts;
+                DALaccounts = db.DalAccounts.ToList();
+                return DALaccounts.ConvertAll<BankAccount>(x => x.ToBankAccount());
+            }
         }
 
         public Task<IEnumerable<BankAccount>> GetAccountsAsync()
@@ -63,15 +82,17 @@ namespace EffinghamLibrary
 
         public void UpdateAccount(BankAccount acct, bool delayWrite = false)
         {
-            DALAccount da;
-            da = db.DalAccounts.Single(x => x.AccountNumber == acct.AccountNumber);
-            da.Balance = acct.Balance;
-            da.CustomerName = acct.CustomerName;
-            if (!delayWrite)
+            lock (objLock)
             {
-                db.SaveChanges();
+                DALAccount da;
+                da = db.DalAccounts.Single(x => x.AccountNumber == acct.AccountNumber);
+                da.Balance = acct.Balance;
+                da.CustomerName = acct.CustomerName;
+                if (!delayWrite)
+                {
+                    db.SaveChanges();
+                }
             }
-
         }
         #endregion IVaultMethods
 
@@ -87,7 +108,6 @@ namespace EffinghamLibrary
                     // TODO: dispose managed state (managed objects).
                     db.Dispose();
                 }
-                db.SaveChanges();
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
 
@@ -113,7 +133,7 @@ namespace EffinghamLibrary
         #region Singleton
 
         public static EFVault vault = null;
-        public static EFVault instance
+        public static EFVault Instance
         {
             get
             {
