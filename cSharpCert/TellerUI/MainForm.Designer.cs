@@ -101,7 +101,7 @@
             // 
             this.BranchInfoLabel.AutoSize = true;
             this.BranchInfoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BranchInfoLabel.Location = new System.Drawing.Point(11, 260);
+            this.BranchInfoLabel.Location = new System.Drawing.Point(5, 266);
             this.BranchInfoLabel.Name = "BranchInfoLabel";
             this.BranchInfoLabel.Size = new System.Drawing.Size(15, 16);
             this.BranchInfoLabel.TabIndex = 6;
@@ -270,7 +270,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 9F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 279);
+            this.ClientSize = new System.Drawing.Size(967, 291);
             this.Controls.Add(this.MonthlyInterestButton);
             this.Controls.Add(this.WithdrawFiveButton);
             this.Controls.Add(this.DepositFiveButton);

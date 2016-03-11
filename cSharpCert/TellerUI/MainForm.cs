@@ -103,6 +103,7 @@ namespace TellerUI
                         throw new ApplicationException("Invalid Account Type Loaded");
                     }
                 }
+                totalAmt = Math.Round(totalAmt, 2);
                 BranchInfoLabel.Text = String.Format("${0} Total. Checking Accounts:{1}  Savings Accounts:{2}", totalAmt, numChecking,
                     numSavings);
 
@@ -213,7 +214,15 @@ namespace TellerUI
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            vault.Deleteaccount(AccountListBox.SelectedItem as BankAccount);
+            try
+            {
+                vault.Deleteaccount(AccountListBox.SelectedItem as BankAccount);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred during deletion.\nAccount may not have been deleted");
+            }
+            
             SummarizeAccounts();
         }
 
@@ -272,7 +281,19 @@ namespace TellerUI
                 {
                     ((SavingsAccount)ba).AddMonthlyInterest();
                 }
-                vault.UpdateAccount(ba, true);
+                try
+                {
+                    vault.UpdateAccount(ba, true);
+                }
+                catch (Exception ex)
+                {
+                    DialogResult res = MessageBox.Show(ba.ToString(), $"Error occurred while applying interest: {ex.Message}\nContinue?", MessageBoxButtons.YesNo);
+                    if (res == DialogResult.No)
+                    {
+                        break;
+                    }
+                }
+                
             }
             vault.FlushAccounts();
             SummarizeAccounts();
