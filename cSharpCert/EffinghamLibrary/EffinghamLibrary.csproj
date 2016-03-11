@@ -48,6 +48,7 @@
     <Compile Include="CurrencyType.cs" />
     <Compile Include="Helpers\AbstractStreamBase.cs" />
     <Compile Include="Helpers\AsyncWritablePipeStream.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="IBankAccount.cs" />
     <Compile Include="IInterestBearing.cs" />
     <Compile Include="IVault.cs" />

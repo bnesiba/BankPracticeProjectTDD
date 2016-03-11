@@ -51,6 +51,11 @@ namespace EffinghamLibrary
         {
             
         }
+
+        internal CheckingAccount(int accountNumber, string customer, decimal balance) : base(accountNumber, customer, balance)
+        {
+            
+        }
         #endregion Constructors
 
         #region Methods

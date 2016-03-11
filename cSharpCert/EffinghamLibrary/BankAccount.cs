@@ -146,6 +146,26 @@ namespace EffinghamLibrary
             
        }
 
+       internal BankAccount(int accountNumber, string customer, decimal balance)
+       {
+           lock (accountLock)
+           {
+                this.accountNumber = accountNumber;
+                this.customerName = customer;
+                this.balance = balance;
+
+               lock (staticBankAccountLock)
+               {
+                   if (BankAccount.nextAccountNumber <= accountNumber)
+                   {
+                       BankAccount.nextAccountNumber = accountNumber + 1;
+                   }
+               }
+           }
+           
+
+       }
+
         #endregion Constructors
 
         #region Methods
