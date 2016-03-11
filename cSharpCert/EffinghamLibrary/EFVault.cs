@@ -35,7 +35,8 @@ namespace EffinghamLibrary
         {
             lock (objLock)
             {
-                db.DalAccounts.Remove(acct.ToDALAccount());
+                DALAccount act = db.DalAccounts.Single(x => x.AccountNumber == acct.AccountNumber);
+                db.DalAccounts.Remove(act);
 
                 if (!delayWrite)
                 {

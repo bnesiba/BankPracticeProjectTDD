@@ -44,6 +44,10 @@
             this.SortComboBox = new System.Windows.Forms.ComboBox();
             this.FilterLabel = new System.Windows.Forms.Label();
             this.FilterComboBox = new System.Windows.Forms.ComboBox();
+            this.DeleteButton = new System.Windows.Forms.Button();
+            this.DepositFiveButton = new System.Windows.Forms.Button();
+            this.WithdrawFiveButton = new System.Windows.Forms.Button();
+            this.MonthlyInterestButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CustomerNameLabel
@@ -164,7 +168,7 @@
             this.AccountListBox.ItemHeight = 16;
             this.AccountListBox.Location = new System.Drawing.Point(451, 44);
             this.AccountListBox.Name = "AccountListBox";
-            this.AccountListBox.Size = new System.Drawing.Size(359, 228);
+            this.AccountListBox.Size = new System.Drawing.Size(491, 196);
             this.AccountListBox.TabIndex = 13;
             // 
             // SortLabel
@@ -217,11 +221,60 @@
             this.FilterComboBox.TabIndex = 17;
             this.FilterComboBox.SelectedIndexChanged += new System.EventHandler(this.FilterComboBox_SelectedIndexChanged);
             // 
+            // DeleteButton
+            // 
+            this.DeleteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteButton.Location = new System.Drawing.Point(867, 246);
+            this.DeleteButton.Name = "DeleteButton";
+            this.DeleteButton.Size = new System.Drawing.Size(75, 23);
+            this.DeleteButton.TabIndex = 18;
+            this.DeleteButton.Text = "Delete";
+            this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            // 
+            // DepositFiveButton
+            // 
+            this.DepositFiveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DepositFiveButton.Location = new System.Drawing.Point(451, 246);
+            this.DepositFiveButton.Name = "DepositFiveButton";
+            this.DepositFiveButton.Size = new System.Drawing.Size(113, 23);
+            this.DepositFiveButton.TabIndex = 19;
+            this.DepositFiveButton.Text = "Deposit $5";
+            this.DepositFiveButton.UseVisualStyleBackColor = true;
+            this.DepositFiveButton.Click += new System.EventHandler(this.DepositFiveButton_Click);
+            // 
+            // WithdrawFiveButton
+            // 
+            this.WithdrawFiveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WithdrawFiveButton.Location = new System.Drawing.Point(570, 246);
+            this.WithdrawFiveButton.Name = "WithdrawFiveButton";
+            this.WithdrawFiveButton.Size = new System.Drawing.Size(105, 23);
+            this.WithdrawFiveButton.TabIndex = 20;
+            this.WithdrawFiveButton.Text = "Withdraw $5";
+            this.WithdrawFiveButton.UseVisualStyleBackColor = true;
+            this.WithdrawFiveButton.Click += new System.EventHandler(this.WithdrawFiveButton_Click);
+            // 
+            // MonthlyInterestButton
+            // 
+            this.MonthlyInterestButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MonthlyInterestButton.Location = new System.Drawing.Point(681, 246);
+            this.MonthlyInterestButton.Name = "MonthlyInterestButton";
+            this.MonthlyInterestButton.Size = new System.Drawing.Size(105, 23);
+            this.MonthlyInterestButton.TabIndex = 21;
+            this.MonthlyInterestButton.Text = "Monthly Intrst";
+            this.MonthlyInterestButton.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.MonthlyInterestButton.UseVisualStyleBackColor = true;
+            this.MonthlyInterestButton.Click += new System.EventHandler(this.MonthlyInterestButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 9F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(822, 284);
+            this.ClientSize = new System.Drawing.Size(967, 279);
+            this.Controls.Add(this.MonthlyInterestButton);
+            this.Controls.Add(this.WithdrawFiveButton);
+            this.Controls.Add(this.DepositFiveButton);
+            this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.FilterComboBox);
             this.Controls.Add(this.FilterLabel);
             this.Controls.Add(this.SortComboBox);
@@ -270,5 +323,9 @@
         private System.Windows.Forms.ComboBox SortComboBox;
         private System.Windows.Forms.Label FilterLabel;
         private System.Windows.Forms.ComboBox FilterComboBox;
+        private System.Windows.Forms.Button DeleteButton;
+        private System.Windows.Forms.Button DepositFiveButton;
+        private System.Windows.Forms.Button WithdrawFiveButton;
+        private System.Windows.Forms.Button MonthlyInterestButton;
     }
 }

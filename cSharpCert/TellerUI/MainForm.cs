@@ -210,5 +210,73 @@ namespace TellerUI
         {
             ArrangeAccounts();
         }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            vault.Deleteaccount(AccountListBox.SelectedItem as BankAccount);
+            SummarizeAccounts();
+        }
+
+        private void DepositFiveButton_Click(object sender, EventArgs e)
+        {
+            foreach (BankAccount ba in vault.GetAccounts())
+            {
+                ba.Deposit(5);
+                try
+                {
+                    vault.UpdateAccount(ba, true);
+                }
+                catch (Exception ex)
+                {
+                    DialogResult res = MessageBox.Show(ba.ToString(), $"Error occurred during deposit: {ex.Message}\nContinue?", MessageBoxButtons.YesNo);
+                    if (res == DialogResult.No)
+                    {
+                        break;
+                    }
+                }
+                
+            }
+            vault.FlushAccounts();
+            SummarizeAccounts();
+        }
+
+        private void WithdrawFiveButton_Click(object sender, EventArgs e)
+        {
+            foreach (BankAccount ba in vault.GetAccounts())
+            {
+                ba.Withdraw(5);
+                try
+                {
+                    vault.UpdateAccount(ba, true);
+                }
+                catch (Exception ex)
+                {
+                    DialogResult res = MessageBox.Show(ba.ToString(), $"Error occurred during withdrawl: {ex.Message}\nContinue?", MessageBoxButtons.YesNo);
+                    if (res == DialogResult.No)
+                    {
+                        break;
+                    }
+                }
+                
+               
+            }
+            vault.FlushAccounts();
+            SummarizeAccounts();
+        }
+
+        private void MonthlyInterestButton_Click(object sender, EventArgs e)
+        {
+            foreach (BankAccount ba in vault.GetAccounts())
+            {
+                if (ba is SavingsAccount)
+                {
+                    ((SavingsAccount)ba).AddMonthlyInterest();
+                }
+                vault.UpdateAccount(ba, true);
+            }
+            vault.FlushAccounts();
+            SummarizeAccounts();
+        }
     }
-}
+    }
+    
