@@ -29,7 +29,7 @@ namespace EffinghamLibrary
 
         public Task<IEnumerable<BankAccount>> GetAccountsAsync()
         {
-            return new Task<IEnumerable<BankAccount>>(() =>GetAccounts());
+            return Task.Run<IEnumerable<BankAccount>>(() =>GetAccounts());
         }
 
         /// <summary>

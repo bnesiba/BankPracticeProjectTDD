@@ -81,7 +81,6 @@ namespace TellerUI
                 IEnumerable<BankAccount> enumerable;
                 
                 Task<IEnumerable<BankAccount>> ta = vault.GetAccountsAsync();
-                ta.Start();
                 ta.Wait();
 
                 enumerable = ta.Result;
